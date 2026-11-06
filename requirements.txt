@@ -1,0 +1,11 @@
+# Runtime dependencies for RoutingBench
+# Tested with Python 3.10+
+
+# LLM client
+openai>=1.40.0
+
+# Configuration
+PyYAML>=6.0
+
+# Result extraction / analysis (only needed for analysis/*.py)
+numpy>=1.24.0

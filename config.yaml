@@ -1,0 +1,74 @@
+# =============================================================================
+# RoutingBench top-level configuration
+# =============================================================================
+# This file is read by every entry point (agents/framework.py,
+# agents/scalability_eval.py, ...). Override individual
+# fields on the command line where supported.
+#
+# API keys and endpoints are NEVER stored here. Set them as environment
+# variables before running any script:
+#
+#   export OPENAI_API_KEY="..."          # required
+#   export OPENAI_BASE_URL="..."         # optional, e.g. https://api.deepseek.com
+#                                        #           https://api.openai.com/v1
+#
+# Each entry under `models:` declares one logical model:
+#   - id           — short name used by --model and the YAML key
+#   - deployment   — the actual model name passed to the OpenAI client
+#   - api_key_env  — env var that holds the API key (default: OPENAI_API_KEY)
+#   - base_url_env — env var that holds the base URL (default: OPENAI_BASE_URL)
+# =============================================================================
+
+# ----- LLM model registry ----------------------------------------------------
+models:
+  gpt-4o:
+    deployment: gpt-4o
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+
+  gpt-5.4:
+    deployment: gpt-5.4
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+
+  o3:
+    deployment: o3
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+
+  deepseek:
+    deployment: deepseek-v4-pro
+    api_key_env: DEEPSEEK_API_KEY
+    base_url_env: DEEPSEEK_BASE_URL
+    
+  qwen:
+    deployment: qwen3.5-397b-instruct
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+
+  llama:
+    deployment: llama-3.3-70b-instruct
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+
+# ----- Default LLM call options ---------------------------------------------
+llm:
+  temperature: 0
+  stream: true            # streaming avoids upstream proxy timeouts on long calls
+  request_timeout_s: 600
+  max_retries: 3
+
+# ----- Default evaluation parameters ----------------------------------------
+evaluation:
+  topology: fattree       # fattree | crossdc | compound
+  method: all             # in_context_learning | iterative_reasoning | agent_skills | all
+  k: 4
+  model: gpt-4o
+  limit: null             # null = all instances per change_type
+  change_type: null
+  output_dir: logs
+
+# ----- Filesystem paths ------------------------------------------------------
+paths:
+  # Where to download / extract the dataset.
+  data_dir: data

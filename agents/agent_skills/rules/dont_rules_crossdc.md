@@ -1,0 +1,4 @@
+### DON'T mirror DC0 path changes to DC1 without checking DC1 configs
+When a configuration change in DC0 shifts the path (e.g., different agg or core), do not assume the same shift happens in DC1. Check whether the change actually affects DC1's routing by examining DC1 device configs. Each DC selects its internal path based on its own configuration.
+
+**Example**: Suppose a change on `dc0-agg-p1-a1` adds a BGP network statement, causing DC0's path to shift from `dc0-agg-p1-a0 → dc0-core-g0-c0` to `dc0-agg-p1-a1 → dc0-core-g1-c0`. A common mistake is to also change DC1's path to `dc1-core-g1-c0 → dc1-agg-p3-a1`. But the change was only on a DC0 device — DC1's configs are untouched, so you must check DC1's own BGP/LP/static configs to determine DC1's path independently.
